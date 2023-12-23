@@ -1,13 +1,23 @@
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { TaskContext } from "./Context";
 
 export default function App() {
-  const [tasksList, setTasksList] = useState([]);
-  const [taskDetails, setTaskDetails] = useState({
-    id: "",
-    name: "",
-    desc: "",
-  });
-  const [editTaskId, setEditTaskId] = useState(null);
+  // const [tasksList, setTasksList] = useState([]);
+  // const [taskDetails, setTaskDetails] = useState({
+  //   id: "",
+  //   name: "",
+  //   desc: "",
+  // });
+  // const [editTaskId, setEditTaskId] = useState(null);
+
+  const {
+    tasksList,
+    setTasksList,
+    taskDetails,
+    setTaskDetails,
+    editTaskId,
+    setEditTaskId,
+  } = useContext(TaskContext);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
