@@ -6,71 +6,27 @@ export default function App() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
     if (taskState?.taskDetails?.name && taskState?.taskDetails?.desc) {
       if (taskState?.editTaskId) {
         // Edit Mode
-        const currentTaskIndex = findCurrentTaskIndex(taskState?.editTaskId);
-
-        const updatedTasksList = [...taskState.tasksList];
-
-        updatedTasksList[currentTaskIndex] = { ...taskState?.taskDetails };
-
-        setStateWithLocalStorage(
-          "APPEND_TASK_IN_LIST",
-          "tasksList",
-          updatedTasksList
-        );
-
-        setStateWithLocalStorage("CHANGE_EDIT_ID", "editTaskId", null);
+        dispatch({ type: "EDIT_TASK" });
       } else {
         // Create Mode
-        setStateWithLocalStorage("APPEND_TASK_IN_LIST", "tasksList", [
-          ...taskState.tasksList,
-          { ...taskState?.taskDetails, id: Math.random().toString(36) },
-        ]);
+        dispatch({ type: "ADD_TASK" });
       }
-
-      setStateWithLocalStorage("EDIT_TASK_DETAILS", "taskDetails", {
-        id: "",
-        name: "",
-        desc: "",
-      });
     }
   };
 
   const handleEditTask = (id) => {
     const currentTaskIndex = findCurrentTaskIndex(id);
-
     setStateWithLocalStorage("CHANGE_EDIT_ID", "editTaskId", id);
-
     setStateWithLocalStorage("EDIT_TASK_DETAILS", "taskDetails", {
       ...taskState?.tasksList?.[currentTaskIndex],
     });
   };
 
   const handleDeleteTask = (id) => {
-    const currentTaskIndex = findCurrentTaskIndex(id);
-
-    const updatedTasksList = [...taskState.tasksList];
-
-    updatedTasksList.splice(currentTaskIndex, 1);
-
-    setStateWithLocalStorage(
-      "APPEND_TASK_IN_LIST",
-      "tasksList",
-      updatedTasksList
-    );
-
-    if (taskState?.taskDetails?.name || taskState?.taskDetails?.desc) {
-      setStateWithLocalStorage("EDIT_TASK_DETAILS", "taskDetails", {
-        id: "",
-        name: "",
-        desc: "",
-      });
-
-      setStateWithLocalStorage("CHANGE_EDIT_ID", "editTaskId", null);
-    }
+    dispatch({ type: "DELETE_TASK", payload: id });
   };
 
   useEffect(() => {
@@ -78,12 +34,10 @@ export default function App() {
       type: "APPEND_TASK_IN_LIST",
       payload: JSON.parse(localStorage.getItem("tasksList")) ?? [],
     });
-
     dispatch({
       type: "EDIT_TASK_DETAILS",
       payload: JSON.parse(localStorage.getItem("taskDetails")),
     });
-
     dispatch({
       type: "CHANGE_EDIT_ID",
       payload: JSON.parse(localStorage.getItem("editTaskId")),
@@ -95,7 +49,6 @@ export default function App() {
 
   const setStateWithLocalStorage = (actionType, loaclStoageKey, data) => {
     dispatch({ type: actionType, payload: data });
-
     localStorage.setItem(loaclStoageKey, JSON.stringify(data));
   };
 
