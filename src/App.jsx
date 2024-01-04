@@ -23,8 +23,10 @@ export default function App() {
   }, []);
 
   return (
-    <div className="bg-[bisque] h-screen px-4">
-      <div className=" text-4xl text-center py-4">Task Manager</div>
+    <div className="bg-[bisque] min-h-screen h-fit px-4">
+      <div className="text-3xl md:text-4xl text-center py-2 md:py-4">
+        Task Manager
+      </div>
       <Routes>
         <Route path="/" element={<AddTask />} />
         <Route path="/show" element={<DisplayTask />} />

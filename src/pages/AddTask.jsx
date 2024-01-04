@@ -22,12 +22,14 @@ const AddTask = () => {
   };
   return (
     <>
-      <button
-        className="bg-[#65350F] disabled:bg-[#987b4f] active:translate-y-1 disabled:translate-y-0 text-white text-xl p-3 rounded-xl"
-        onClick={() => navigate("/show")}
-      >
-        Show Tasks
-      </button>
+      <div className="flex flex-col lg:flex-row md:items-start">
+        <button
+          className="bg-[#65350F] disabled:bg-[#987b4f] active:translate-y-1 disabled:translate-y-0 text-white text-lg md:text-xl mx-5 my-2 p-2 md:p-3 rounded-xl"
+          onClick={() => navigate("/show")}
+        >
+          Show Tasks
+        </button>
+      </div>
       <form
         className="my-5 flex flex-col lg:flex-row justify-evenly items-center gap-4"
         onSubmit={handleFormSubmit}
@@ -77,7 +79,7 @@ const AddTask = () => {
           ></textarea>
         </div>
         <button
-          className="bg-[#65350F] disabled:bg-[#987b4f] active:translate-y-1 disabled:translate-y-0 text-white text-xl p-3 rounded-xl"
+          className="bg-[#65350F] disabled:bg-[#987b4f] active:translate-y-1 disabled:translate-y-0 text-white text-xl p-3 rounded-xl w-full md:w-fit"
           disabled={
             !taskState?.taskDetails?.name || !taskState?.taskDetails?.desc
           }
