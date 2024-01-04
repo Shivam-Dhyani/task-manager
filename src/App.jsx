@@ -1,33 +1,11 @@
 import { useEffect, useContext } from "react";
 import { TaskContext } from "./Context";
+import { Route, Routes } from "react-router-dom";
+import AddTask from "./pages/AddTask";
+import DisplayTask from "./pages/DisplayTask";
 
 export default function App() {
-  const { taskState, dispatch } = useContext(TaskContext);
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    if (taskState?.taskDetails?.name && taskState?.taskDetails?.desc) {
-      if (taskState?.editTaskId) {
-        // Edit Mode
-        dispatch({ type: "EDIT_TASK" });
-      } else {
-        // Create Mode
-        dispatch({ type: "ADD_TASK" });
-      }
-    }
-  };
-
-  const handleEditTask = (id) => {
-    const currentTaskIndex = findCurrentTaskIndex(id);
-    setStateWithLocalStorage("CHANGE_EDIT_ID", "editTaskId", id);
-    setStateWithLocalStorage("EDIT_TASK_DETAILS", "taskDetails", {
-      ...taskState?.tasksList?.[currentTaskIndex],
-    });
-  };
-
-  const handleDeleteTask = (id) => {
-    dispatch({ type: "DELETE_TASK", payload: id });
-  };
+  const { dispatch } = useContext(TaskContext);
 
   useEffect(() => {
     dispatch({
@@ -44,93 +22,13 @@ export default function App() {
     });
   }, []);
 
-  const findCurrentTaskIndex = (id) =>
-    taskState?.tasksList.findIndex((task) => task.id === id);
-
-  const setStateWithLocalStorage = (actionType, loaclStoageKey, data) => {
-    dispatch({ type: actionType, payload: data });
-    localStorage.setItem(loaclStoageKey, JSON.stringify(data));
-  };
-
   return (
-    <div className="bg-[bisque] h-screen">
+    <div className="bg-[bisque] h-screen px-4">
       <div className=" text-4xl text-center py-4">Task Manager</div>
-      <form
-        className="my-5 flex flex-col lg:flex-row justify-evenly items-center gap-4"
-        onSubmit={handleFormSubmit}
-      >
-        <div className="flex items-center sm:justify-center gap-2 md:gap-4">
-          <label htmlFor="taskName" className="text-xl min-w-36">
-            Task Name:
-          </label>
-          <input
-            type="text"
-            className="w-[40vw] lg:w-[20vw] text-lg p-1 md:p-2 border-black border-2 rounded-xl"
-            name="taskName"
-            value={taskState?.taskDetails?.name}
-            onChange={(e) => {
-              setStateWithLocalStorage("EDIT_TASK_DETAILS", "taskDetails", {
-                ...taskState?.taskDetails,
-                name: e.target.value,
-              });
-            }}
-          />
-        </div>
-        <div className="flex items-center justify-center gap-2 md:gap-4">
-          <label htmlFor="taskDesc" className="text-xl min-w-21">
-            Task Description:
-          </label>
-          <textarea
-            name="taskDesc"
-            className="w-[40vw] lg:w-[20vw] text-lg p-1 md:p-2 border-black border-2 rounded-xl"
-            rows="3"
-            value={taskState?.taskDetails?.desc}
-            onChange={(e) => {
-              setStateWithLocalStorage("EDIT_TASK_DETAILS", "taskDetails", {
-                ...taskState?.taskDetails,
-                desc: e.target.value,
-              });
-            }}
-          ></textarea>
-        </div>
-        <button
-          className="bg-[#65350F] disabled:bg-[#987b4f] active:translate-y-1 disabled:translate-y-0 text-white text-xl p-3 rounded-xl"
-          disabled={
-            !taskState?.taskDetails?.name || !taskState?.taskDetails?.desc
-          }
-        >
-          {taskState?.editTaskId ? "Edit Task" : "Add Task"}
-        </button>
-      </form>
-
-      <div>
-        <ul className="overflow-auto h-[30vh]">
-          {taskState?.tasksList?.map((task) => (
-            <li key={task?.id}>
-              <div>
-                <span>{task?.name}</span>
-                <span>{task?.desc}</span>
-                <button
-                  className="bg-[#65350F] disabled:bg-[#987b4f] border-black border-2 text-white text-md p-1 active:translate-y-[2px] disabled:translate-y-0 rounded-lg"
-                  onClick={() => {
-                    handleEditTask(task?.id);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="bg-[#65350F] disabled:bg-[#987b4f] border-black border-2 text-white text-md p-1 active:translate-y-[2px] disabled:translate-y-0 rounded-lg"
-                  onClick={() => {
-                    handleDeleteTask(task?.id);
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Routes>
+        <Route path="/" element={<AddTask />} />
+        <Route path="/show" element={<DisplayTask />} />
+      </Routes>
     </div>
   );
 }
