@@ -10,6 +10,7 @@ const Context = ({ children }) => {
       id: "",
       name: "",
       desc: "",
+      isCompleted: false,
     },
     editTaskId: null,
   };
@@ -41,23 +42,33 @@ const Context = ({ children }) => {
       case "ADD_TASK":
         setDataInLocalStorage("tasksList", [
           ...taskState.tasksList,
-          { ...taskState?.taskDetails, id: Math.random().toString(36) },
+          {
+            ...taskState?.taskDetails,
+            id: Math.random().toString(36),
+            isCompleted: false,
+          },
         ]);
         setDataInLocalStorage("taskDetails", {
           id: "",
           name: "",
           desc: "",
+          isCompleted: false,
         });
         return {
           ...taskState,
           tasksList: [
             ...taskState.tasksList,
-            { ...taskState?.taskDetails, id: Math.random().toString(36) },
+            {
+              ...taskState?.taskDetails,
+              id: Math.random().toString(36),
+              isCompleted: false,
+            },
           ],
           taskDetails: {
             id: "",
             name: "",
             desc: "",
+            isCompleted: false,
           },
         };
       case "EDIT_TASK": {
@@ -79,7 +90,23 @@ const Context = ({ children }) => {
             id: "",
             name: "",
             desc: "",
+            isCompleted: false,
           },
+        };
+      }
+      case "UPDATE_TASK_STATUS": {
+        const currentTaskIndex = findCurrentTaskIndex(action.payload);
+        const updatedTasksList = [...taskState.tasksList];
+        const currentTaskUpdatedIsCompletedStatus =
+          !taskState.tasksList[currentTaskIndex].isCompleted;
+        updatedTasksList[currentTaskIndex] = {
+          ...taskState.tasksList[currentTaskIndex],
+          isCompleted: currentTaskUpdatedIsCompletedStatus,
+        };
+        setDataInLocalStorage("tasksList", updatedTasksList);
+        return {
+          ...taskState,
+          tasksList: updatedTasksList,
         };
       }
       case "DELETE_TASK": {
@@ -93,6 +120,7 @@ const Context = ({ children }) => {
             id: "",
             name: "",
             desc: "",
+            isCompleted: false,
           });
         }
         return {
@@ -101,10 +129,26 @@ const Context = ({ children }) => {
           ...((taskState?.taskDetails?.name ||
             taskState?.taskDetails?.desc) && {
             editTaskId: null,
-            taskDetails: { id: "", name: "", desc: "" },
+            taskDetails: { id: "", name: "", desc: "", isCompleted: false },
           }),
         };
       }
+      case "RESET_TASK_DETAILS":
+        setDataInLocalStorage("editTaskId", null);
+        setDataInLocalStorage("taskDetails", {
+          id: "",
+          name: "",
+          desc: "",
+          isCompleted: false,
+        });
+        return {
+          ...taskState,
+          ...((taskState?.taskDetails?.name ||
+            taskState?.taskDetails?.desc) && {
+            editTaskId: null,
+            taskDetails: { id: "", name: "", desc: "", isCompleted: false },
+          }),
+        };
       default:
         return taskState;
     }
