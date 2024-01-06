@@ -25,7 +25,10 @@ const AddTask = () => {
       <div className="flex flex-col lg:flex-row md:items-start">
         <button
           className="bg-[#65350F] disabled:bg-[#987b4f] active:translate-y-1 disabled:translate-y-0 text-white text-lg md:text-xl mx-5 my-2 p-2 md:p-3 rounded-xl"
-          onClick={() => navigate("/show")}
+          onClick={() => {
+            navigate("/show");
+            dispatch({ type: "RESET_TASK_DETAILS" });
+          }}
         >
           Show Tasks
         </button>
