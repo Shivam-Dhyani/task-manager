@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MdDeleteForever, MdModeEditOutline } from "react-icons/md";
 import { TaskContext } from "../Context";
 import {
@@ -7,9 +7,14 @@ import {
 } from "../utils/common";
 import { useNavigate } from "react-router";
 import { isEmpty } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getAllProductsAction } from "../redux/reducers/products";
 
 const DisplayTask = () => {
   const navigate = useNavigate();
+  const dispatch1 = useDispatch();
+  const { products } = useSelector((state) => state.products);
   const { taskState, dispatch } = useContext(TaskContext);
   const [showCompletedTasks, setShowCompletedTasks] = useState(false);
 
@@ -33,6 +38,12 @@ const DisplayTask = () => {
   };
 
   const filteredTasks = getFilteredTasks(showCompletedTasks);
+
+  console.log("data====>", products.productsdata);
+
+  useEffect(() => {
+    dispatch1(getAllProductsAction());
+  }, []);
 
   return (
     <>

@@ -5,22 +5,22 @@ import AddTask from "./pages/AddTask";
 import DisplayTask from "./pages/DisplayTask";
 
 export default function App() {
-  const { dispatch } = useContext(TaskContext);
+  // const { dispatch } = useContext(TaskContext);
 
-  useEffect(() => {
-    dispatch({
-      type: "APPEND_TASK_IN_LIST",
-      payload: JSON.parse(localStorage.getItem("tasksList")) ?? [],
-    });
-    dispatch({
-      type: "EDIT_TASK_DETAILS",
-      payload: JSON.parse(localStorage.getItem("taskDetails")),
-    });
-    dispatch({
-      type: "CHANGE_EDIT_ID",
-      payload: JSON.parse(localStorage.getItem("editTaskId")),
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "APPEND_TASK_IN_LIST",
+  //     payload: JSON.parse(localStorage.getItem("tasksList")) ?? [],
+  //   });
+  //   dispatch({
+  //     type: "EDIT_TASK_DETAILS",
+  //     payload: JSON.parse(localStorage.getItem("taskDetails")),
+  //   });
+  //   dispatch({
+  //     type: "CHANGE_EDIT_ID",
+  //     payload: JSON.parse(localStorage.getItem("editTaskId")),
+  //   });
+  // }, []);
 
   return (
     <div className="bg-[bisque] min-h-screen h-fit px-4">
