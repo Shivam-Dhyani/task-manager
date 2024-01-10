@@ -10,3 +10,5 @@ export const setStateWithLocalStorage = (
   dispatch({ type: actionType, payload: data });
   localStorage.setItem(loaclStoageKey, JSON.stringify(data));
 };
+
+export const baseUrl = import.meta.env.VITE_APP_BASE_URL;
