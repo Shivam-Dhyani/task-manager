@@ -76,46 +76,71 @@ const DisplayTask = () => {
       <div>
         {!isEmpty(filteredTasks) ? (
           <ul className="overflow-auto max-h-[78vh] md-2 md:p-4">
-            {filteredTasks.map((task) => (
-              <li key={task?.id}>
-                <div className="p-1.5 md:p-3 m-2 border-black border-2 rounded-xl flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={task?.isCompleted}
-                    className="accent-[#65350F] h-6 mr-2 size-5 md:size-8"
-                    onChange={() =>
-                      dispatch({
-                        type: "UPDATE_TASK_STATUS",
-                        payload: task?.id,
-                      })
-                    }
-                  />
-                  <span className="w-[15%] text-ellipsis overflow-hidden md:text-xl">
-                    {task?.name}
-                  </span>
-                  <div className="border-l border-black min-h-max mx-2 h-12"></div>
-                  <span className="w-[60%] sm:w-[60%] md:w-[85%] md:text-xl line-clamp-2">
-                    {task?.desc}
-                  </span>
-                  <div className="sm:w-[18%] md:w-[14%] lg:w-[10%] flex justify-evenly items-center">
-                    <MdModeEditOutline
-                      // size={40}
-                      className="text-[#65350F] cursor-pointer size-7 sm:size-8  md:size-10"
-                      onClick={() => {
-                        handleEditTask(task?.id);
-                      }}
+            {filteredTasks.map((task) => {
+              const checkPriorityLevel = (level) => task?.priority === level;
+              const isHighPriority = checkPriorityLevel("high");
+              const isMediumPriority = checkPriorityLevel("medium");
+              const isLowPriority = checkPriorityLevel("low");
+              const priorityColorClass = isHighPriority
+                ? "text-red-500"
+                : isMediumPriority
+                ? "text-yellow-500"
+                : isLowPriority
+                ? "text-green-500"
+                : "text-gray-500";
+
+              return (
+                <li key={task?.id} className="mb-3">
+                  <div className="relative p-1.5 md:p-3 m-2 border-black border-2 rounded-xl flex items-center">
+                    <span
+                      className={`bg-[bisque] ${priorityColorClass} sm:text-lg text-sm absolute -top-3.5 left-4 md:left-12 font-medium px-2 rounded`}
+                    >
+                      {isHighPriority
+                        ? "High"
+                        : isMediumPriority
+                        ? "Medium"
+                        : isLowPriority
+                        ? "Low"
+                        : "No Priority"}
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={task?.isCompleted}
+                      className="accent-[#65350F] h-6 mr-2 size-5 md:size-8"
+                      onChange={() =>
+                        dispatch({
+                          type: "UPDATE_TASK_STATUS",
+                          payload: task?.id,
+                        })
+                      }
                     />
-                    <MdDeleteForever
-                      size={40}
-                      className="text-[#65350F] cursor-pointer size-7 sm:size-8  md:size-10"
-                      onClick={() => {
-                        handleDeleteTask(task?.id);
-                      }}
-                    />
+                    <span className="w-[15%] line-clamp-2 md:text-xl">
+                      {task?.name}
+                    </span>
+                    <div className="border-l border-black min-h-max mx-2 h-12"></div>
+                    <span className="w-[60%] sm:w-[60%] md:w-[85%] md:text-xl line-clamp-2">
+                      {task?.desc}
+                    </span>
+                    <div className="sm:w-[18%] md:w-[14%] lg:w-[10%] flex justify-evenly items-center">
+                      <MdModeEditOutline
+                        // size={40}
+                        className="text-[#65350F] cursor-pointer size-7 sm:size-8  md:size-10"
+                        onClick={() => {
+                          handleEditTask(task?.id);
+                        }}
+                      />
+                      <MdDeleteForever
+                        size={40}
+                        className="text-[#65350F] cursor-pointer size-7 sm:size-8  md:size-10"
+                        onClick={() => {
+                          handleDeleteTask(task?.id);
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         ) : (
           <div className="text-2xl h-[70vh] flex justify-center items-center">
