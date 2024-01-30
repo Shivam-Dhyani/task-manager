@@ -10,6 +10,8 @@ const Context = ({ children }) => {
       id: "",
       name: "",
       desc: "",
+      priority: "",
+      duration: "",
       isCompleted: false,
     },
     editTaskId: null,
@@ -52,6 +54,8 @@ const Context = ({ children }) => {
           id: "",
           name: "",
           desc: "",
+          priority: "",
+          duration: "",
           isCompleted: false,
         });
         return {
@@ -68,6 +72,8 @@ const Context = ({ children }) => {
             id: "",
             name: "",
             desc: "",
+            priority: "",
+            duration: "",
             isCompleted: false,
           },
         };
@@ -81,6 +87,8 @@ const Context = ({ children }) => {
           id: "",
           name: "",
           desc: "",
+          priority: "",
+          duration: "",
         });
         return {
           ...taskState,
@@ -90,6 +98,8 @@ const Context = ({ children }) => {
             id: "",
             name: "",
             desc: "",
+            priority: "",
+            duration: "",
             isCompleted: false,
           },
         };
@@ -120,6 +130,8 @@ const Context = ({ children }) => {
             id: "",
             name: "",
             desc: "",
+            priority: "",
+            duration: "",
             isCompleted: false,
           });
         }
@@ -139,6 +151,8 @@ const Context = ({ children }) => {
           id: "",
           name: "",
           desc: "",
+          priority: "",
+          duration: "",
           isCompleted: false,
         });
         return {
