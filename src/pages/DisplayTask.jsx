@@ -103,6 +103,11 @@ const DisplayTask = () => {
                         ? "Low"
                         : "No Priority"}
                     </span>
+                    <span
+                      className={`bg-[bisque] text-black sm:text-lg text-sm absolute -top-3.5 right-4 md:right-12 font-medium px-2 rounded`}
+                    >
+                      {task?.duration ?? "No Time Limit"}
+                    </span>
                     <input
                       type="checkbox"
                       checked={task?.isCompleted}
